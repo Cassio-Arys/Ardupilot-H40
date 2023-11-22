@@ -63,7 +63,7 @@
 #endif
 
 #ifndef STM32_HSE_ENABLED
-#define STM32_HSE_ENABLED                   TRUE
+#define STM32_HSE_ENABLED                   FALSE
 #endif
 
 #ifndef STM32_LSE_ENABLED
@@ -79,7 +79,7 @@
 #endif
 
 #ifndef STM32_PLLSRC
-#define STM32_PLLSRC                        STM32_PLLSRC_HSE
+#define STM32_PLLSRC                        STM32_PLLSRC_HSI
 #endif
 
 #if !defined(HAL_CUSTOM_CLOCK_TREE)
@@ -208,7 +208,7 @@
 #define STM32_PLLM_VALUE                    16
 #define STM32_PLLN_VALUE                    360
 #define STM32_PLLP_VALUE                    2
-#define STM32_PLLQ_VALUE                    6
+#define STM32_PLLQ_VALUE                    2
 #define STM32_CK48MSEL                      STM32_CK48MSEL_PLLALT
 #elif STM32_HSECLK == 8000000U
 #define STM32_PLLM_VALUE                    8

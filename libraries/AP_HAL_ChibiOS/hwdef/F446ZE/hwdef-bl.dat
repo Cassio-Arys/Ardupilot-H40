@@ -1,0 +1,62 @@
+# hw definition file for processing by chibios_pins.py
+
+# MCU class and specific type
+MCU STM32F4xx STM32F446xx
+
+FLASH_RESERVE_START_KB 0
+# two sectors for bootloader, two for storage
+FLASH_BOOTLOADER_LOAD_KB 64
+
+# board ID for firmware load
+APJ_BOARD_ID 1001
+
+# setup build for a peripheral firmware
+env AP_PERIPH 1
+
+# crystal frequency
+OSCILLATOR_HZ 8000000
+
+define CH_CFG_ST_FREQUENCY 100000
+
+# assume 512k flash part
+FLASH_SIZE_KB 512
+
+PB3 LED_BOOTLOADER OUTPUT HIGH
+define HAL_LED_ON 1
+
+# ---------------------- UARTS ---------------------------
+define HAL_USE_SERIAL TRUE
+
+    # |PORT0|PORT1|
+    SERIAL_ORDER USART6 UART4
+
+    # USART6 for Front
+    PC6 USART6_TX USART6
+    PC7 USART6_RX USART6
+
+    # UART4 for RangeFider
+    PC10 UART4_TX UART4
+    PC11 UART4_RX UART4
+
+# ---------------------- CAN ---------------------------
+    define CAN_APP_NODE_NAME "org.ardupilot.Arys_Periph_Bootloader"
+
+    PB8 CAN1_RX CAN1
+    PB9 CAN1_TX CAN1
+
+    PB5 CAN2_RX CAN2
+    PB6 CAN2_TX CAN2
+
+    define HAL_USE_CAN TRUE
+    define STM32_CAN_USE_CAN1 TRUE
+    define STM32_CAN_USE_CAN2 TRUE
+
+
+# make bl baudrate match debug baudrate for easier debugging
+define BOOTLOADER_BAUDRATE 57600
+
+# use a small bootloader timeout
+define HAL_BOOTLOADER_TIMEOUT 1000
+
+PA13 JTMS-SWDIO SWD
+PA14 JTCK-SWCLK SWD

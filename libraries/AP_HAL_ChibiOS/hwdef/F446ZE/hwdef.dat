@@ -1,0 +1,204 @@
+# hw definition file for processing by chibios_pins.py
+# MCU class and specific type
+
+# ---------------------- PERIPH ---------------------------
+env AP_PERIPH 1
+
+# ---------------------- MCU ---------------------------
+    MCU STM32F4xx STM32F446xx
+
+    OSCILLATOR_HZ 8000000
+    define CH_CFG_ST_FREQUENCY 100000
+    FLASH_SIZE_KB 512 # Total Flash
+    FLASH_RESERVE_START_KB 64 # bootloader reserve
+
+    STORAGE_FLASH_PAGE 2
+    define HAL_STORAGE_SIZE 8192
+
+    APJ_BOARD_ID 1001 # Board ID
+    STM32_ST_USE_TIMER 5
+
+
+    define HAL_USE_ADC FALSE
+    define STM32_ADC_USE_ADC1 FALSE
+    define STM32_ADC_USE_ADC2 FALSE
+    define STM32_ADC_USE_ADC2 FALSE
+
+# ---------------------- SAVE MEMORY ---------------------------
+    #define HAL_NO_RCIN_THREAD
+    #define HAL_USE_RTC FALSE
+    #define DISABLE_SERIAL_ESC_COMM TRUE
+    #define HAL_GCS_ENABLED 0
+    #define HAL_NO_LOGGING
+    #define HAL_NO_MONITOR_THREAD
+    #define AP_PARAM_MAX_EMBEDDED_PARAM 1024
+
+# ---------------------- CAN ---------------------------
+    PB8 CAN1_RX CAN1
+    PB9 CAN1_TX CAN1
+
+    #PB5 CAN2_RX CAN2
+    #PB6 CAN2_TX CAN2
+
+    define STM32_CAN_USE_CAN1 TRUE
+    #define STM32_CAN_USE_CAN2 TRUE
+
+# ---------------------- UARTS ---------------------------
+define HAL_USE_SERIAL TRUE
+
+    # |PORT0|PORT1|
+    SERIAL_ORDER USART6 UART4
+
+    # USART6 for Front
+    PC6 USART6_TX USART6
+    PC7 USART6_RX USART6
+
+    # UART4 for RangeFider
+    PC10 UART4_TX UART4
+    PC11 UART4_RX UART4
+
+# ---------------------- ADC ---------------------------
+    # ---------------------- BATT ---------------------------
+        #VSENSE_5V_1
+        #PC0 BATT_VOLTAGE_SENS ADC1 SCALE(1)
+
+        #BATT_CURRENT
+        #PA7 BATT_CURRENT_SENS ADC1 SCALE(1)
+
+    # ---------------------- BATT2 ---------------------------
+        #VSENSE_5V_2
+        #PC1 BATT2_VOLTAGE_SENS ADC1 SCALE(1)
+
+        #GER_CURRENT
+        #PC4 BATT2_CURRENT_SENS ADC1 SCALE(1)
+
+    # ---------------------- BATT3 ---------------------------
+        #VSENSE_12V
+        #PC2 BATT3_VOLTAGE_SENS ADC1 SCALE(1)
+
+        #PDB_CURRENT
+        #PC5 BATT3_CURRENT_SENS ADC1 SCALE(1)
+
+    # ---------------------- BATT4 ---------------------------
+        #VSENSE_48V
+        #PA0 BATT4_VOLTAGE_SENS ADC1 SCALE(1)
+
+    # ---------------------- BATT5 ---------------------------
+        #VSENSE_100V
+        #PA1 BATT5_VOLTAGE_SENS ADC1 SCALE(1)
+
+    # ---------------------- BATT6---------------------------
+        #SPRAY_PRESSURE1
+        #PA2 BATT6_VOLTAGE_SENS ADC1 SCALE(1)
+
+        #SPRAY_PRESSURE2
+        #PA3 BATT6_CURRENT_SENS ADC1 SCALE(1)
+
+    # ---------------------- BATT7 ---------------------------
+        #FUEL_LEVEL
+        #PA4 BATT7_VOLTAGE_SENS ADC1 SCALE(1)
+
+        #HS_PRESSURE
+        #PC3 BATT7_CURRENT_SENS ADC2 SCALE(1)
+
+    # ---------------------- BATT8 ---------------------------
+        #HS_TEMP1
+        #PA5 BATT8_VOLTAGE_SENS ADC1 SCALE(1)
+
+        #HS_TEMP2
+        #PA6 BATT3_CURRENT_SENS ADC1 SCALE(1)
+
+# ---------------------- BATT ---------------------------
+    #define HAL_PERIPH_ENABLE_BATTERY
+    #define AP_BATT_MONITOR_MAX_INSTANCES 9
+
+    #define HAL_BATT_MONITOR_DEFAULT 4
+    #define HAL_BATT_VOLT_PIN 10
+    #define HAL_BATT_CURR_PIN 7
+    #define HAL_BATT_VOLT_SCALE 1
+    #define HAL_BATT_CURR_SCALE 1
+
+    #define HAL_BATT2_MONITOR_DEFAULT 4
+    #define HAL_BATT2_VOLT_PIN 11
+    #define HAL_BATT2_CURR_PIN 14
+    #define HAL_BATT2_VOLT_SCALE 1
+    #define HAL_BATT2_CURR_SCALE 1
+
+    #define HAL_BATT3_MONITOR_DEFAULT 4
+    #define HAL_BATT3_VOLT_PIN 12
+    #define HAL_BATT3_CURR_PIN 15
+    #define HAL_BATT3_VOLT_SCALE 1
+    #define HAL_BATT3_CURR_SCALE 1
+
+    #define HAL_BATT4_MONITOR_DEFAULT 3
+    #define HAL_BATT4_VOLT_PIN 0
+    #define HAL_BATT4_VOLT_SCALE 1
+
+    #define HAL_BATT5_MONITOR_DEFAULT 3
+    #define HAL_BATT5_VOLT_PIN 1
+    #define HAL_BATT5_VOLT_SCALE 1
+
+    #define HAL_BATT6_MONITOR_DEFAULT 4
+    #define HAL_BATT6_VOLT_PIN 2
+    #define HAL_BATT6_CURR_PIN 3
+    #define HAL_BATT6_VOLT_SCALE 1
+
+    #define HAL_BATT7_MONITOR_DEFAULT 3
+    #define HAL_BATT7_VOLT_PIN 4
+    #define HAL_BATT7_CURR_PIN 13
+    #define HAL_BATT7_VOLT_SCALE 1
+    #define HAL_BATT7_CURR_SCALE 1
+
+    define HAL_BATT8_MONITOR_DEFAULT 4
+    #define HAL_BATT8_VOLT_PIN 5
+    #define HAL_BATT8_CURR_PIN 6
+    #define HAL_BATT8_VOLT_SCALE 1
+    #define HAL_BATT8_CURR_SCALE 1
+
+# ---------------------- RCOUT ---------------------------
+# enable PWM
+define HAL_PERIPH_ENABLE_RC_OUT
+
+    # ---------------------- SPRAY_PUMP1 ---------------------------
+    PF6 TIM10_CH1 TIM10 PWM(1) GPIO(50) NODMA
+    # ---------------------- SPRAY_PUMP2 ---------------------------
+    PF7 TIM11_CH1 TIM11 PWM(2) GPIO(51) NODMA
+
+    # ---------------------- SPRAY_FLOW1 ---------------------------
+    #PF8 TIM13_CH1 TIM13 PWM(3) GPIO(52) NODMA
+    # ---------------------- SPRAY_FLOW2 ---------------------------
+   # PF9 TIM14_CH1 TIM14 PWM(4) GPIO(53) NODMA
+
+    # ---------------------- ROT_NOZZLE1 ---------------------------
+    PE13 TIM1_CH3 TIM1 PWM(5) GPIO(54)
+    # ---------------------- ROT_NOZZLE2 ---------------------------
+   # PE14 TIM1_CH4 TIM1 PWM(6) GPIO(55)
+
+    # ---------------------- NAV_LED_DRIVER1 ---------------------------
+    #PB14 TIM1_CH2N TIM1 PWM(7) GPIO(56)
+    # ---------------------- NAV_LED_DRIVER2 ---------------------------
+    #PB15 TIM12_CH2 TIM12 PWM(8) GPIO(57) NODMA
+
+    # ---------------------- TEMP_SENSOR_SDA ---------------------------
+    ##PC9 TIM8_CH4 TIM8 PWM(9) GPIO(58)
+
+    # ---------------------- TEMP_SENSOR_SCL ---------------------------
+    #PA8 TIM1_CH1 TIM1 PWM(10) GPIO(59)
+
+
+    # ---------------------- HS_PUMP ---------------------------
+    #PB4 TIM3_CH1 TIM3 PWM(12) GPIO(61)
+
+    # ---------------------- ROT_NOZZLE3 ---------------------------
+    #PB7 
+
+# ---------------------- RANGEFINDER ---------------------------
+    #define HAL_PERIPH_ENABLE_RANGEFINDER
+    #define AP_PERIPH_RANGEFINDER_PORT_DEFAULT 1
+
+# ---------------------- PRX ---------------------------
+    #define HAL_PROXIMITY_ENABLED 1
+    #define HAL_PERIPH_ENABLE_PRX
+    #define AP_PERIPH_PRX_PORT_DEFAULT 0
+
+define CAN_APP_NODE_NAME "org.ardupilot.Arys_Periph"

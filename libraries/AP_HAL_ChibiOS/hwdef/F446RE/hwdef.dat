@@ -1,0 +1,188 @@
+# hw definition file for processing by chibios_pins.py
+# MCU class and specific type
+
+# ---------------------- PERIPH ---------------------------
+env AP_PERIPH 1
+
+# ---------------------- MCU ---------------------------
+    MCU STM32F4xx STM32F446xx
+
+    OSCILLATOR_HZ 0
+    #define CH_CFG_ST_FREQUENCY 10000
+
+    FLASH_SIZE_KB 512 # Total Flash
+    FLASH_RESERVE_START_KB 64 # bootloader reserve
+
+    STORAGE_FLASH_PAGE 2
+    define HAL_STORAGE_SIZE 8192
+
+    APJ_BOARD_ID 1001 # Board ID
+    STM32_ST_USE_TIMER 5
+
+
+    define HAL_USE_ADC TRUE
+
+# ---------------------- CAN ---------------------------
+    define CAN_APP_NODE_NAME "Arys_PDB_Periph"
+
+    # DroneCAN Bus
+    PB8 CAN1_RX CAN1
+    PB9 CAN1_TX CAN1
+
+# ---------------------- UARTS ---------------------------
+    # |PORT0|PORT1|
+    SERIAL_ORDER USART6 UART4
+
+    # USART1 for debug
+    PC6 USART6_TX USART6
+    PC7 USART6_RX USART6
+
+    # UART4 for RangeFider
+    PC10 UART4_TX UART4
+    PC11 UART4_RX UART4
+
+
+    # one I2C bus
+    PF0 I2C2_SDA I2C2
+    PF1 I2C2_SCL I2C2
+
+    I2C_ORDER I2C2
+
+
+# ---------------------- ADC ---------------------------
+    # ---------------------- BATT ---------------------------
+        #VSENSE_5V_1
+        PA0 BATT_VOLTAGE_SENS ADC1 SCALE(1)
+
+        #BATT_CURRENT
+        PA7 BATT_CURRENT_SENS ADC1 SCALE(1)
+
+    # ---------------------- BATT2 ---------------------------
+        #VSENSE_5V_2
+        PC2 BATT2_VOLTAGE_SENS ADC1 SCALE(1)
+
+        #GER_CURRENT
+        PC4 BATT2_CURRENT_SENS ADC1 SCALE(1)
+
+    # ---------------------- BATT3 ---------------------------
+        #VSENSE_12V
+        PC0 BATT3_VOLTAGE_SENS ADC1 SCALE(1)
+
+    # ---------------------- BATT4 ---------------------------
+        #VSENSE_48V
+        PC1 BATT4_VOLTAGE_SENS ADC1 SCALE(1)
+
+    # ---------------------- BATT5---------------------------
+        #SPRAY_PRESSURE1
+        #PA2 BATT6_VOLTAGE_SENS ADC1 SCALE(1)
+
+        #SPRAY_PRESSURE2
+        #PA3 BATT6_CURRENT_SENS ADC1 SCALE(1)
+
+    # ---------------------- BATT6 ---------------------------
+        #FUEL_LEVEL
+        #PA4 BATT7_VOLTAGE_SENS ADC1 SCALE(1)
+
+        #HS_PRESSURE
+        #PC3 BATT7_CURRENT_SENS ADC2 SCALE(1)
+
+    # ---------------------- BATT7 ---------------------------
+        #HS_TEMP1
+        PA5 TEMP1_ADC_PIN ADC1 SCALE(1)
+
+        #HS_TEMP2
+        PA6 TEMP2_ADC_PIN ADC1 SCALE(1)
+
+# ---------------------- BATT ---------------------------
+    define HAL_PERIPH_ENABLE_BATTERY
+    define AP_BATT_MONITOR_MAX_INSTANCES 5
+
+    define HAL_BATT_MONITOR_DEFAULT 4
+    define HAL_BATT_VOLT_PIN 0
+    define HAL_BATT_CURR_PIN 7
+    define HAL_BATT_VOLT_SCALE 1
+    define HAL_BATT_CURR_SCALE 1
+
+    define HAL_BATT2_MONITOR_DEFAULT 4
+    define HAL_BATT2_VOLT_PIN 12
+    define HAL_BATT2_CURR_PIN 14
+    define HAL_BATT2_VOLT_SCALE 1
+    define HAL_BATT2_CURR_SCALE 1
+
+    define HAL_BATT3_MONITOR_DEFAULT 3
+    define HAL_BATT3_VOLT_PIN 10
+    define HAL_BATT3_VOLT_SCALE 1
+
+    define HAL_BATT4_MONITOR_DEFAULT 3
+    define HAL_BATT4_VOLT_PIN 11
+    define HAL_BATT4_VOLT_SCALE 1
+
+    define HAL_BATT5_MONITOR_DEFAULT 21
+    #define HAL_BATT5_VOLT_PIN 2
+    #define HAL_BATT5_CURR_PIN 3
+    #define HAL_BATT5_VOLT_SCALE 1
+
+    #define HAL_BATT6_MONITOR_DEFAULT 3
+    #define HAL_BATT6_VOLT_PIN 4
+    #define HAL_BATT6_CURR_PIN 13
+    #define HAL_BATT6_VOLT_SCALE 1
+    #define HAL_BATT6_CURR_SCALE 1
+
+    #define HAL_BATT7_MONITOR_DEFAULT 4
+    #define HAL_BATT7_VOLT_PIN 5
+    #define HAL_BATT7_CURR_PIN 6
+    #define HAL_BATT7_VOLT_SCALE 1
+    #define HAL_BATT7_CURR_SCALE 1
+
+# ---------------------- RCOUT ---------------------------
+# enable PWM
+#define HAL_PERIPH_ENABLE_RC_OUT
+
+    # ---------------------- SPRAY_PUMP1 ---------------------------
+    #PF6 TIM10_CH1 TIM10 PWM(1) GPIO(50) NODMA
+    # ---------------------- SPRAY_PUMP2 ---------------------------
+    #PF7 TIM11_CH1 TIM11 PWM(2) GPIO(51) NODMA
+
+    # ---------------------- SPRAY_FLOW1 ---------------------------
+    #PF8 TIM13_CH1 TIM13 PWM(3) GPIO(52) NODMA
+    # ---------------------- SPRAY_FLOW2 ---------------------------
+    #PF9 TIM14_CH1 TIM14 PWM(4) GPIO(53) NODMA
+
+    # ---------------------- ROT_NOZZLE1 ---------------------------
+    #PE13 TIM1_CH3 TIM1 PWM(5) GPIO(54)
+    # ---------------------- ROT_NOZZLE2 ---------------------------
+    #PE14 TIM1_CH4 TIM1 PWM(6) GPIO(55)
+
+    # ---------------------- NAV_LED_DRIVER1 ---------------------------
+    #PB13 TIM1_CH1N TIM1 PWM(7) GPIO(56)
+    # ---------------------- NAV_LED_DRIVER2 ---------------------------
+    #PB14 TIM12_CH1 TIM12 PWM(8) GPIO(57) NODMA
+
+    # ---------------------- LIGHT_DRIVER ---------------------------
+    #PC9 TIM8_CH4 TIM8 PWM(9) GPIO(58)
+
+    # ---------------------- 100V_STATUS ---------------------------
+    #PA8 TIM1_CH1 TIM1 PWM(10) GPIO(59)
+
+    # ---------------------- PDB_STATUS ---------------------------
+    #PA9 TIM1_CH2 TIM1 PWM(11) GPIO(60)
+
+    # ---------------------- ROT_NOZZLE3 ---------------------------
+    #PB4 TIM3_CH1 TIM3 PWM(12) GPIO(61)
+
+    # ---------------------- HS_PUMP ---------------------------
+    #PB8 TIM4_CH3 TIM4 PWM(13) GPIO(62)
+
+# ---------------------- RANGEFINDER ---------------------------
+    define HAL_PERIPH_ENABLE_RANGEFINDER
+    define AP_PERIPH_RANGEFINDER_PORT_DEFAULT 1
+
+# ---------------------- PRX ---------------------------
+    #define HAL_PROXIMITY_ENABLED 1
+    #define HAL_PERIPH_ENABLE_PRX
+    #define AP_PERIPH_PRX_PORT_DEFAULT 0
+
+define AP_BOOTLOADER_FLASHING_ENABLED 0
+
+define AP_BATTERY_INA2XX_ENABLED 1
+define AP_TEMPERATURE_SENSOR_ENABLED 1

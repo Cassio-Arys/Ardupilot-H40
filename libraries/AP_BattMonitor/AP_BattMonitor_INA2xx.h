@@ -8,6 +8,12 @@
 
 #if AP_BATTERY_INA2XX_ENABLED
 
+struct adc_report_s
+{
+    uint8_t id;
+    float data;
+};
+
 class AP_BattMonitor_INA2XX : public AP_BattMonitor_Backend
 {
 public:
@@ -34,6 +40,7 @@ private:
         INA226,
         INA228,
         INA238,
+        ADS1115,
     };
 
     static const uint8_t i2c_probe_addresses[];
@@ -63,6 +70,14 @@ private:
     } accumulate;
     float current_LSB;
     float voltage_LSB;
+
+    static const uint8_t _channels_number;
+    int                 _channel_to_read;
+    adc_report_s        *_samples;
+
+    uint16_t            _gain;
+    float _convert_register_data_to_mv(int16_t word) const;
+    bool _start_conversion(uint8_t channel);
 };
 
 #endif // AP_BATTERY_INA2XX_ENABLED

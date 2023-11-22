@@ -57,8 +57,87 @@ extern const AP_HAL::HAL& hal;
 #define HAL_BATTMON_INA2XX_ADDR 0
 #endif
 
+#define ADS1115_ADDRESS_ADDR_GND    0x48 // address pin low (GND)
+#define ADS1115_ADDRESS_ADDR_VDD    0x49 // address pin high (VCC)
+#define ADS1115_ADDRESS_ADDR_SDA    0x4A // address pin tied to SDA pin
+#define ADS1115_ADDRESS_ADDR_SCL    0x4B // address pin tied to SCL pin
+
+#define ADS1115_I2C_ADDR            ADS1115_ADDRESS_ADDR_GND
+#define ADS1115_I2C_BUS             1
+
+#define ADS1115_RA_CONVERSION       0x00
+#define ADS1115_RA_CONFIG           0x01
+#define ADS1115_RA_LO_THRESH        0x02
+#define ADS1115_RA_HI_THRESH        0x03
+
+#define ADS1115_OS_SHIFT            15
+#define ADS1115_OS_INACTIVE         0x00 << ADS1115_OS_SHIFT
+#define ADS1115_OS_ACTIVE           0x01 << ADS1115_OS_SHIFT
+
+#define ADS1115_MUX_SHIFT           12
+#define ADS1115_MUX_P0_N1           0x00 << ADS1115_MUX_SHIFT /* default */
+#define ADS1115_MUX_P0_N3           0x01 << ADS1115_MUX_SHIFT
+#define ADS1115_MUX_P1_N3           0x02 << ADS1115_MUX_SHIFT
+#define ADS1115_MUX_P2_N3           0x03 << ADS1115_MUX_SHIFT
+#define ADS1115_MUX_P0_NG           0x04 << ADS1115_MUX_SHIFT
+#define ADS1115_MUX_P1_NG           0x05 << ADS1115_MUX_SHIFT
+#define ADS1115_MUX_P2_NG           0x06 << ADS1115_MUX_SHIFT
+#define ADS1115_MUX_P3_NG           0x07 << ADS1115_MUX_SHIFT
+
+#define ADS1115_PGA_SHIFT           9
+#define ADS1115_PGA_6P144           0x00 << ADS1115_PGA_SHIFT
+#define ADS1115_PGA_4P096           0x01 << ADS1115_PGA_SHIFT
+#define ADS1115_PGA_2P048           0x02 << ADS1115_PGA_SHIFT // default
+#define ADS1115_PGA_1P024           0x03 << ADS1115_PGA_SHIFT
+#define ADS1115_PGA_0P512           0x04 << ADS1115_PGA_SHIFT
+#define ADS1115_PGA_0P256           0x05 << ADS1115_PGA_SHIFT
+#define ADS1115_PGA_0P256B          0x06 << ADS1115_PGA_SHIFT
+#define ADS1115_PGA_0P256C          0x07 << ADS1115_PGA_SHIFT
+
+#define ADS1115_MV_6P144            0.187500f
+#define ADS1115_MV_4P096            0.125000f
+#define ADS1115_MV_2P048            0.062500f // default
+#define ADS1115_MV_1P024            0.031250f
+#define ADS1115_MV_0P512            0.015625f
+#define ADS1115_MV_0P256            0.007813f
+#define ADS1115_MV_0P256B           0.007813f
+#define ADS1115_MV_0P256C           0.007813f
+
+#define ADS1115_MODE_SHIFT          8
+#define ADS1115_MODE_CONTINUOUS     0x00 << ADS1115_MODE_SHIFT
+#define ADS1115_MODE_SINGLESHOT     0x01 << ADS1115_MODE_SHIFT // default
+
+#define ADS1115_RATE_SHIFT          5
+#define ADS1115_RATE_8              0x00 << ADS1115_RATE_SHIFT
+#define ADS1115_RATE_16             0x01 << ADS1115_RATE_SHIFT
+#define ADS1115_RATE_32             0x02 << ADS1115_RATE_SHIFT
+#define ADS1115_RATE_64             0x03 << ADS1115_RATE_SHIFT
+#define ADS1115_RATE_128            0x04 << ADS1115_RATE_SHIFT // default
+#define ADS1115_RATE_250            0x05 << ADS1115_RATE_SHIFT
+#define ADS1115_RATE_475            0x06 << ADS1115_RATE_SHIFT
+#define ADS1115_RATE_860            0x07 << ADS1115_RATE_SHIFT
+
+#define ADS1115_COMP_MODE_SHIFT         4
+#define ADS1115_COMP_MODE_HYSTERESIS    0x00 << ADS1115_COMP_MODE_SHIFT        // default
+#define ADS1115_COMP_MODE_WINDOW        0x01 << ADS1115_COMP_MODE_SHIFT
+
+#define ADS1115_COMP_POL_SHIFT          3
+#define ADS1115_COMP_POL_ACTIVE_LOW     0x00 << ADS1115_COMP_POL_SHIFT     // default
+#define ADS1115_COMP_POL_ACTIVE_HIGH    0x01 << ADS1115_COMP_POL_SHIFT
+
+#define ADS1115_COMP_LAT_SHIFT          2
+#define ADS1115_COMP_LAT_NON_LATCHING   0x00 << ADS1115_COMP_LAT_SHIFT    // default
+#define ADS1115_COMP_LAT_LATCHING       0x01 << ADS1115_COMP_LAT_SHIFT
+
+#define ADS1115_COMP_QUE_SHIFT      0
+#define ADS1115_COMP_QUE_ASSERT1    0x00 << ADS1115_COMP_SHIFT
+#define ADS1115_COMP_QUE_ASSERT2    0x01 << ADS1115_COMP_SHIFT
+#define ADS1115_COMP_QUE_ASSERT4    0x02 << ADS1115_COMP_SHIFT
+#define ADS1115_COMP_QUE_DISABLE    0x03 // default
+
+
 // list of addresses to probe if I2C_ADDR is zero
-const uint8_t AP_BattMonitor_INA2XX::i2c_probe_addresses[] { 0x41, 0x44, 0x45 };
+const uint8_t AP_BattMonitor_INA2XX::i2c_probe_addresses[] { 0x41, 0x44, 0x45, 0x48};
 
 const AP_Param::GroupInfo AP_BattMonitor_INA2XX::var_info[] = {
 
@@ -108,7 +187,7 @@ AP_BattMonitor_INA2XX::AP_BattMonitor_INA2XX(AP_BattMonitor &mon,
 
 void AP_BattMonitor_INA2XX::init(void)
 {
-    dev = hal.i2c_mgr->get_device(i2c_bus, i2c_address, 100000, false, 20);
+    dev = hal.i2c_mgr->get_device(0, 0x48, 100000, false, 20);
     if (!dev) {
         return;
     }
@@ -123,45 +202,21 @@ bool AP_BattMonitor_INA2XX::configure(DevType dtype)
         return false;
 
     case DevType::INA226: {
-        // configure for MAX_AMPS
-        const uint16_t conf = (0x2<<9) | (0x5<<6) | (0x5<<3) | 0x7; // 2ms conv time, 16x sampling
-        current_LSB = max_amps / 32768.0;
-        voltage_LSB = 0.00125; // 1.25mV/bit
-        const uint16_t cal = uint16_t(0.00512 / (current_LSB * rShunt));
-        if (write_word(REG_226_CONFIG, REG_226_CONFIG_RESET) && // reset
-            write_word(REG_226_CONFIG, conf) &&
-            write_word(REG_226_CALIBRATION, cal)) {
-            dev_type = dtype;
-            return true;
-        }
         break;
     }
 
     case DevType::INA228: {
-        // configure for MAX_AMPS
-        voltage_LSB = 195.3125e-6; // 195.3125 uV/LSB
-        current_LSB = max_amps / (1<<19);
-        const uint16_t shunt_cal = uint16_t(13107.2e6 * current_LSB * rShunt) & 0x7FFF;
-        if (write_word(REG_228_CONFIG, REG_228_CONFIG_RESET) && // reset
-            write_word(REG_228_CONFIG, 0) &&
-            write_word(REG_228_SHUNT_CAL, shunt_cal)) {
-            dev_type = dtype;
-            return true;
-        }
         break;
     }
 
     case DevType::INA238: {
+        break;
+    }
+
+    case DevType::ADS1115: {
         // configure for MAX_AMPS
-        voltage_LSB = 3.125e-3; // 3.125mV/LSB
-        current_LSB = max_amps / (1<<15);
-        const uint16_t shunt_cal = uint16_t(819.2e6 * current_LSB * rShunt) & 0x7FFF;
-        if (write_word(REG_238_CONFIG, REG_238_CONFIG_RESET) && // reset
-            write_word(REG_238_CONFIG, 0) &&
-            write_word(REG_238_SHUNT_CAL, shunt_cal)) {
-            dev_type = dtype;
-            return true;
-        }
+        dev_type = dtype;
+        return true;
         break;
     }
         
@@ -251,31 +306,80 @@ bool AP_BattMonitor_INA2XX::detect_device(void)
         return false;
     }
     last_detect_ms = now;
-    int16_t id;
 
     WITH_SEMAPHORE(dev->get_semaphore());
 
-    if (i2c_address.get() == 0) {
-        dev->set_address(i2c_probe_addresses[i2c_probe_next]);
-        i2c_probe_next = (i2c_probe_next+1) % sizeof(i2c_probe_addresses);
+    
+    return configure(DevType::ADS1115);
+
+}
+
+float AP_BattMonitor_INA2XX::_convert_register_data_to_mv(int16_t word) const
+{
+    float pga;
+
+    switch (_gain) {
+    case ADS1115_PGA_6P144:
+        pga = ADS1115_MV_6P144;
+        break;
+    case ADS1115_PGA_4P096:
+        pga = ADS1115_MV_4P096;
+        break;
+    case ADS1115_PGA_2P048:
+        pga = ADS1115_MV_2P048;
+        break;
+    case ADS1115_PGA_1P024:
+        pga = ADS1115_MV_1P024;
+        break;
+    case ADS1115_PGA_0P512:
+        pga = ADS1115_MV_0P512;
+        break;
+    case ADS1115_PGA_0P256:
+        pga = ADS1115_MV_0P256;
+        break;
+    case ADS1115_PGA_0P256B:
+        pga = ADS1115_MV_0P256B;
+        break;
+    case ADS1115_PGA_0P256C:
+        pga = ADS1115_MV_0P256C;
+        break;
+    default:
+        pga = 0.0f;
+        DEV_PRINTF("Wrong gain");
+        AP_HAL::panic("ADS1115: wrong gain selected");
+        break;
     }
 
-    if (read_word16(REG_228_MANUFACT_ID, id) && id == 0x5449 &&
-        read_word16(REG_228_DEVICE_ID, id) && (id&0xFFF0) == 0x2280) {
-        return configure(DevType::INA228);
-    }
-    if (read_word16(REG_238_MANUFACT_ID, id) && id == 0x5449 &&
-        read_word16(REG_238_DEVICE_ID, id) && (id&0xFFF0) == 0x2380) {
-        return configure(DevType::INA238);
-    }
-    if (read_word16(REG_226_MANUFACT_ID, id) && id == 0x5449 &&
-        write_word(REG_226_CONFIG, REG_226_CONFIG_RESET) &&
-        write_word(REG_226_CONFIG, REG_226_CONFIG_DEFAULT) &&
-        read_word16(REG_226_CONFIG, id) &&
-        id == REG_226_CONFIG_DEFAULT) {
-        return configure(DevType::INA226);
-    }
-    return false;
+    return (float) word * pga;
+}
+
+#define ADS1115_CHANNELS_COUNT           6
+
+const uint8_t AP_BattMonitor_INA2XX::_channels_number = ADS1115_CHANNELS_COUNT;
+
+/* Only two differential channels used */
+static const uint16_t mux_table[ADS1115_CHANNELS_COUNT] = {
+    ADS1115_MUX_P1_N3,
+    ADS1115_MUX_P2_N3,
+    ADS1115_MUX_P0_NG,
+    ADS1115_MUX_P1_NG,
+    ADS1115_MUX_P2_NG,
+    ADS1115_MUX_P3_NG
+};
+
+bool AP_BattMonitor_INA2XX::_start_conversion(uint8_t channel)
+{
+    struct PACKED {
+        uint8_t reg;
+        be16_t val;
+    } config;
+
+    config.reg = ADS1115_RA_CONFIG;
+    config.val = htobe16(ADS1115_OS_ACTIVE | _gain | mux_table[channel] |
+                         ADS1115_MODE_SINGLESHOT | ADS1115_COMP_QUE_DISABLE |
+                         ADS1115_RATE_250);
+
+    return dev->transfer((uint8_t *)&config, sizeof(config), nullptr, 0);
 }
 
 
@@ -340,6 +444,40 @@ void AP_BattMonitor_INA2XX::timer(void)
         current = current16 * current_LSB;
         break;
     }
+
+    case DevType::ADS1115: {
+
+    uint8_t config[2];
+    be16_t val;
+
+    if (!dev->read_registers(ADS1115_RA_CONFIG, config, sizeof(config))) {
+        return;
+    }
+
+    /* check rdy bit */
+    if ((config[1] & 0x80) != 0x80 ) {
+        return;
+    }
+
+    if (!dev->read_registers(ADS1115_RA_CONVERSION, (uint8_t *)&val,  sizeof(val))) {
+        return;
+    }
+
+    float sample = _convert_register_data_to_mv(be16toh(val));
+
+    _samples[0].data = sample;
+    _samples[0].id = 0;
+
+    voltage = (sample * (100000 + 3900)/3900)/1000;
+    //voltage = (sample)/1000;
+
+    current = 0;
+
+    /* select next channel */
+    _channel_to_read = 2;
+    _start_conversion(2);
+}
+
     }
 
     failed_reads = 0;
