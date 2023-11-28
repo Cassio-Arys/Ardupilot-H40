@@ -302,6 +302,9 @@ void AP_DroneCAN::init(uint8_t driver_index, bool enable_filters)
     arming_status.set_timeout_ms(20);
     arming_status.set_priority(CANARD_TRANSFER_PRIORITY_LOW);
 
+    efi_data.set_timeout_ms(20);
+    efi_data.set_priority(CANARD_TRANSFER_PRIORITY_LOW);
+
 #if AP_DRONECAN_SEND_GPS
     gnss_fix2.set_timeout_ms(20);
     gnss_fix2.set_priority(CANARD_TRANSFER_PRIORITY_LOW);

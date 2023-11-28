@@ -27,6 +27,13 @@
 #include <AP_Parachute/AP_Parachute.h>
 #include <AP_Relay/AP_Relay.h>
 #include "AP_ICEngine.h"
+#include <AP_DroneCAN/AP_DroneCAN.h>
+#include <AP_Baro/AP_Baro.h>
+#include <canard.h>
+// include the headers for the generated DroneCAN messages from the
+// dronecan_dsdlc compiler
+#include <dronecan_msgs.h>
+#include <AP_CANManager/AP_CANManager.h>
 
 extern const AP_HAL::HAL& hal;
 
@@ -198,6 +205,8 @@ AP_ICEngine::AP_ICEngine()
  */
 void AP_ICEngine::update(void)
 {
+    send_EFI_PressTemp();
+
     if (!enable) {
         return;
     }
@@ -644,6 +653,37 @@ namespace AP {
 AP_ICEngine *ice() {
         return AP_ICEngine::get_singleton();
     }
+}
+
+void AP_ICEngine::send_EFI_PressTemp()
+{
+    //uint8_t instance = 0;
+    //const AP_Baro &barometer = AP::baro();
+
+    //float press_abs = 0.0f;
+    //int16_t temperature = 0; // Absolute pressure temperature
+    //int16_t temperature_press_diff = 0; // Differential pressure temperature
+
+    //press_abs = barometer.get_pressure(instance) * 0.01f;
+    //temperature = barometer.get_ground_temperature() + 273.15;
+
+    
+    com_arys_EFI msg {};
+
+    msg.temp_value = 0x01;
+    msg.press_value = 0xFF01;
+    msg.throttle_value = 0x03;
+    
+    uint8_t can_num_drivers = AP::can().get_num_drivers();
+    for (uint8_t i = 0; i < can_num_drivers; i++) {
+        auto *dronecan = AP_DroneCAN::get_dronecan(i);
+        if (dronecan != nullptr) {
+            dronecan->efi_data.broadcast(msg);
+        }
+    }
+
+    
+
 }
 
 #endif  // AP_ICENGINE_ENABLED

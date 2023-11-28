@@ -158,6 +158,8 @@
 #endif
 #include <AP_RPM/AP_RPM.h>
 
+#include <AP_ICEngine/AP_ICEngine.h>
+
 #if AP_SCRIPTING_ENABLED
 #include <AP_Scripting/AP_Scripting.h>
 #endif
@@ -234,6 +236,7 @@ public:
     friend class ModeZigZag;
     friend class ModeAutorotate;
     friend class ModeTurtle;
+    friend class AP_ICEngine;
 
     friend class _AutoTakeoff;
 
@@ -319,6 +322,8 @@ private:
 #if AP_RPM_ENABLED
     AP_RPM rpm_sensor;
 #endif
+
+
 
     // Inertial Navigation EKF - different viewpoint
     AP_AHRS_View *ahrs_view;

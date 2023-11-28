@@ -27,6 +27,9 @@
 #include <AP_RPM/AP_RPM_config.h>
 #include <AP_HAL/I2CDevice.h>
 #include <AP_Relay/AP_Relay_config.h>
+#include <AP_DroneCAN/AP_DroneCAN.h>
+#include <AP_Baro/AP_Baro.h>
+#include <AP_CANManager/AP_CANManager.h>
 
 #if AP_ICENGINE_TCA9554_STARTER_ENABLED
 #include "AP_ICEngine_TCA9554.h"
@@ -54,6 +57,8 @@ public:
         ICE_RUNNING=4
     };
 
+    static void send_EFI_PressTemp();
+
     // get current engine control state
     ICE_State get_state(void) const { return !enable?ICE_DISABLED:state; }
 
@@ -73,6 +78,8 @@ private:
 
     void set_ignition(bool on);
     void set_starter(bool on);
+
+    AP_DroneCAN* _ap_dronecan;
 
     enum ICE_State state;
 

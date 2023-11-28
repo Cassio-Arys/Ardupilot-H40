@@ -695,6 +695,9 @@ public:
     AP_Float pldp_range_finder_minimum_m;
     AP_Float pldp_delay_s;
     AP_Float pldp_descent_speed_ms;
+
+    // internal combustion engine control
+    AP_ICEngine ice_control;
 };
 
 extern const AP_Param::Info        var_info[];

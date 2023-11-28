@@ -143,6 +143,7 @@ public:
     Canard::Publisher<uavcan_equipment_indication_LightsCommand> rgb_led{canard_iface};
     Canard::Publisher<uavcan_equipment_indication_BeepCommand> buzzer{canard_iface};
     Canard::Publisher<uavcan_equipment_gnss_RTCMStream> rtcm_stream{canard_iface};
+    Canard::Publisher<com_arys_EFI> efi_data{canard_iface};
 
     // xacti specific publishers
     Canard::Publisher<com_xacti_CopterAttStatus> xacti_copter_att_status{canard_iface};
